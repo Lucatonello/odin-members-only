@@ -9,7 +9,9 @@ const getUserByEmail = async (email) => {
 
 const createUser = async (email, password) => {
   const hashedPassword = await bcryptjs.hash(password, 10);
+  console.log("Creating user with email:", email); // Add this line
   await pool.query('INSERT INTO users (email, password) VALUES ($1, $2)', [email, hashedPassword]);
+  console.log("User created successfully"); // Add this line
 };
 
 module.exports = { getUserByEmail, createUser };
