@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const { createUser } = require('../db/user');
+const { createUser, makeMember, addStorie } = require('../db/user');
 
 router.get('/', (req, res) => {
     res.render("index");
@@ -35,10 +35,35 @@ router.post('/login', passport.authenticate('local', {
   });
 
   router.get('/home', (req, res) => {
-    if (req.isAuthenticated()) {
-        res.render('home');
+    const authenticated = req.user;
+    res.render('home', { authenticated });
+  });
+
+  router.post('/home', async (req, res) => {
+    let passCode = req.body.passcode;
+    if (passCode === 'anaconda' && req.user) {
+        try {
+            await makeMember(req.user);
+            res.redirect('/home');
+        } catch (err) {
+            console.log(err);
+            res.redirect('/home');
+        }
     } else {
-        res.redirect("/login");
+        res.redirect('/home');
     }
-  })
+  });
+
+  router.post('/new-storie', async (req, res) => {
+    const storie = req.body.newMessage;
+    const author = req.user;
+    try {
+        await addStorie(storie, author);
+        res.redirect('/home');
+    } catch (err) {
+        console.log(err);
+        res.redirect('/home');
+    }
+  });
+  
   module.exports = router;

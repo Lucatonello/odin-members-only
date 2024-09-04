@@ -6,7 +6,24 @@
     <title>Home</title>
 </head>
 <body>
-    <h1>Hello</h1>
-    <h2>You have succesfully loged in</h2>
+    <h1>Home</h1>
+    <h2>See what's happening...</h2>
+
+    <% if (authenticated) { %>
+        <form action="/new-storie" method="POST">
+            <label for="newPost">Create new message</label>
+            <input type="text" name="newMessage">
+            <button type="submit">Post</button>
+        </form>
+    <% } %>
+    <hr>
+    
+    <% if (authenticated) { %>
+        <form action="/home" method="POST">
+            <label for="passcode">Want to join the club?</label>
+            <input type="text" name="passcode" placeholder="Enter the secret passcode">
+            <button type="submit">Send</button>
+        </form>
+    <% } %>
 </body>
 </html>

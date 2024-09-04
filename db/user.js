@@ -1,4 +1,3 @@
-// db/user.js
 const pool = require('./pool');
 const bcryptjs = require('bcryptjs');
 
@@ -9,9 +8,17 @@ const getUserByEmail = async (email) => {
 
 const createUser = async (email, password) => {
   const hashedPassword = await bcryptjs.hash(password, 10);
-  console.log("Creating user with email:", email); // Add this line
   await pool.query('INSERT INTO users (email, password) VALUES ($1, $2)', [email, hashedPassword]);
-  console.log("User created successfully"); // Add this line
 };
 
-module.exports = { getUserByEmail, createUser };
+const makeMember = async (user) => {
+  if (user.status !== 'member') {
+    await pool.query('UPDATE users SET status = $1 WHERE id = $2', ['member', user.id]);
+  }
+};
+
+const addStorie = async (storie, author) => {
+  await pool.query('INSERT INTO stories (text, authorid) VALUES ($1, $2)', [storie, author.id]);
+};
+
+module.exports = { getUserByEmail, createUser, makeMember, addStorie };
