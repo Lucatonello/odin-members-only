@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const { createUser, makeMember, addStorie } = require('../db/user');
+const { createUser, makeMember, addStorie, getStories } = require('../db/user');
 
 router.get('/', (req, res) => {
     res.render("index");
@@ -34,9 +34,11 @@ router.post('/login', passport.authenticate('local', {
     res.redirect("/login");
   });
 
-  router.get('/home', (req, res) => {
+  router.get('/home', async (req, res) => {
+    const stories = await getStories();
+    console.log(stories);
     const authenticated = req.user;
-    res.render('home', { authenticated });
+    res.render('home', { authenticated, stories });
   });
 
   router.post('/home', async (req, res) => {

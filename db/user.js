@@ -21,4 +21,8 @@ const addStorie = async (storie, author) => {
   await pool.query('INSERT INTO stories (text, authorid) VALUES ($1, $2)', [storie, author.id]);
 };
 
-module.exports = { getUserByEmail, createUser, makeMember, addStorie };
+const getStories = async () => {
+  const stories = await pool.query('SELECT * FROM stories');
+  return stories;
+};
+module.exports = { getUserByEmail, createUser, makeMember, addStorie, getStories };

@@ -17,7 +17,14 @@
         </form>
     <% } %>
     <hr>
-    
+    <h1>Stories</h1>
+    <ul>
+        <% for (let i = 0; i < stories.rows.length; i++) { %>
+            <li>
+                <%= stories.rows[i].text %>
+            </li>
+        <% } %>
+    </ul>
     <% if (authenticated) { %>
         <form action="/home" method="POST">
             <label for="passcode">Want to join the club?</label>
