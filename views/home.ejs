@@ -22,6 +22,15 @@
         <% for (let i = 0; i < stories.rows.length; i++) { %>
             <li>
                 <%= stories.rows[i].text %>
+                <% if (authenticated) { %>
+                    <div>
+                        Wrote by: <%= stories.rows[i].email %>
+                    </div>
+                    <div>
+                        <%= stories.rows[i].date %>
+                    </div>
+                    
+                <% } %>
             </li>
         <% } %>
     </ul>

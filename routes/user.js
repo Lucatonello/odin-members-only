@@ -36,7 +36,6 @@ router.post('/login', passport.authenticate('local', {
 
   router.get('/home', async (req, res) => {
     const stories = await getStories();
-    console.log(stories);
     const authenticated = req.user;
     res.render('home', { authenticated, stories });
   });
