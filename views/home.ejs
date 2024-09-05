@@ -9,7 +9,7 @@
     <h1>Home</h1>
     <h2>See what's happening...</h2>
 
-    <% if (authenticated) { %>
+    <% if (authenticated ) { %>
         <form action="/new-storie" method="POST">
             <label for="newPost">Create new message</label>
             <input type="text" name="newMessage">
@@ -22,14 +22,13 @@
         <% for (let i = 0; i < stories.rows.length; i++) { %>
             <li>
                 <%= stories.rows[i].text %>
-                <% if (authenticated) { %>
+                <% if (isMember || isAdmin) { %>
                     <div>
                         Wrote by: <%= stories.rows[i].email %>
                     </div>
                     <div>
                         <%= stories.rows[i].date %>
                     </div>
-                    
                 <% } %>
             </li>
         <% } %>
@@ -41,5 +40,8 @@
             <button type="submit">Send</button>
         </form>
     <% } %>
+        <form action="/logout" method="GET">
+            <button type="submit">Logout</button>
+        </form>
 </body>
 </html>

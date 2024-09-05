@@ -30,6 +30,11 @@ const makeMember = async (user) => {
   }
 };
 
+const makeAdmin = async (user) => {
+  if (user.status !== 'admin') {
+    await pool.query('UPDATE users SET status = $1 WHERE id = $2', ['admin', user.id]);
+  }
+};
 const addStorie = async (storie, author) => {
   await pool.query('INSERT INTO stories (text, authorid, date) VALUES ($1, $2, $3)', [storie, author.id, getCurrentDateTime()]);
 };
@@ -43,4 +48,4 @@ const getStories = async () => {
   return stories;
 };
 
-module.exports = { getUserByEmail, createUser, makeMember, addStorie, getStories };
+module.exports = { getUserByEmail, createUser, makeMember, addStorie, getStories, makeAdmin };

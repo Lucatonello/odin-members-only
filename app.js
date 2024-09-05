@@ -20,6 +20,7 @@ app.use(session({
     secret: process.env.SESSION_SECRET || 'your_secret_key',
     resave: false,
     saveUninitialized: false,
+    cookie: { secure: false }
   }));
 
   const pool = new Pool({
